@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Los 4 componentes - Unidad 4</title><style>*{box-sizing:border-box}html,body{margin:0;background:#f4f6fb;font-family:'Segoe UI',Roboto,Arial,sans-serif;color:#1f2a44}
+.wrap{max-width:960px;margin:0 auto;padding:clamp(12px,3vw,24px)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.pill{display:inline-block;background:#0f1d3a;color:#ffc23d;font-weight:800;font-size:12px;letter-spacing:1.2px;padding:6px 12px;border-radius:999px}
+.score{color:#0f1d3a;font-weight:800;font-size:14px}
+.mount{display:block;width:100%;height:auto;max-height:200px;border-radius:14px;background:#0f1d3a;margin:0 0 14px}
+@keyframes pasoA{0%,100%{transform:translate(0,-10px) rotate(18deg)}50%{transform:translate(0,-10px) rotate(-18deg)}}@keyframes pasoB{0%,100%{transform:translate(0,-10px) rotate(-18deg)}50%{transform:translate(0,-10px) rotate(18deg)}}@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}@keyframes ondea{0%,100%{transform:skewY(0)}50%{transform:skewY(-9deg) scaleX(.88)}}
+.walk .la{animation:pasoA .5s infinite}.walk .lb{animation:pasoB .5s infinite}.walk .bd{animation:bob .25s infinite}.fl{transform-origin:471px 7px;animation:ondea 1.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.walk .la,.walk .lb,.walk .bd,.fl{animation:none}}
+.hero{background:#0f1d3a;color:#fff;border-radius:14px;padding:clamp(14px,3vw,22px);border-bottom:5px solid #ff7a2f;margin-bottom:14px}
+.hero small{display:block;color:#ffc23d;font-weight:800;letter-spacing:1px;font-size:12.5px;margin-bottom:6px}
+.hero .big{font-size:clamp(17px,2.5vw,23px);font-weight:700;line-height:1.4}
+.q{color:#0f1d3a;font-weight:800;margin:0 0 10px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.opt{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;background:#fff;border:2px solid #c9d3e6;border-radius:12px;padding:14px 16px;color:#0f1d3a;font-weight:700;font-size:16px;line-height:1.35;text-align:left;transition:transform .1s,border-color .2s}
+.opt:hover{border-color:#ff7a2f}.opt:active{transform:scale(.98)}.opt:focus-visible{outline:3px solid #ffc23d}
+.opt.ok{box-shadow:inset 0 0 0 1px #1f9d55;background:#e8f7ee!important;border:3px solid #1f9d55!important;color:#14532d!important}.opt.bad{background:#fdf0e8!important;border:3px solid #c2410c!important;color:#7c2d12!important}.opt[disabled]{cursor:default}
+.fb{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:15.5px;line-height:1.55;display:none}
+.fb.ok{display:block;background:#e8f7ee;border-left:6px solid #1f9d55}.fb.bad{display:block;background:#fdf0e8;border-left:6px solid #c2410c}
+.row{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn{all:unset;cursor:pointer;background:#ff7a2f;color:#fff;font-weight:800;padding:11px 22px;border-radius:999px;font-size:15px}.btn[disabled]{opacity:.4;cursor:default}.btn:focus-visible{outline:3px solid #0f1d3a}
+.btn.line{background:transparent;border:2px solid #0f1d3a;color:#0f1d3a;padding:9px 20px}
+.hide{display:none!important}
+.end{text-align:center;background:#fff;border-radius:16px;padding:clamp(18px,4vw,32px);border-top:6px solid #ff7a2f}
+.end .big{font-size:clamp(34px,6vw,54px);font-weight:900;color:#0f1d3a}.end p{color:#44506a;font-size:16px;line-height:1.6}
+.tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1px;padding:4px 10px;border-radius:999px;background:#fff3e8;color:#b5470d;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;min-height:50px;margin-bottom:12px}
+.chip{all:unset;box-sizing:border-box;cursor:grab;user-select:none;-webkit-user-select:none;box-shadow:0 2px 0 #d95a17;background:#fff;border:2px solid #ff7a2f;border-radius:12px;padding:10px 12px;font-size:15px;font-weight:700;color:#0f1d3a;line-height:1.3;touch-action:none}
+.chip.ghost{position:fixed;z-index:50;pointer-events:none;transform:rotate(-3deg) scale(1.05);box-shadow:0 10px 22px rgba(0,0,0,.28);cursor:grabbing;margin:0}.chip.hold{opacity:.25}.chip.ok{box-shadow:none}@keyframes sacude{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}.chip.bad{animation:sacude .35s 2;box-shadow:none}.chip.ok{border-color:#1f9d55;background:#e8f7ee;color:#14532d;cursor:default}.chip.bad{border-color:#c2410c;background:#fdf0e8;color:#7c2d12}
+.zones{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:560px){.zone .chip{font-size:13px;padding:8px 9px}.zone h3{font-size:14px}}
+.zone{border-radius:14px;padding:12px;min-height:130px;display:flex;flex-direction:column;gap:8px;cursor:pointer}
+.zone h3{margin:0 0 4px;font-size:16px}.z1{background:#e8f7ee;border:2px dashed #1f9d55}.z1 h3{color:#14532d}.z2{background:#fdf0e8;border:2px dashed #c2410c}.z2 h3{color:#7c2d12}
+.zone.over,.slot.over{box-shadow:0 0 0 4px #ffc23d;transform:scale(1.01)}.zone,.slot{transition:transform .15s,box-shadow .15s}
+.slot{display:flex;align-items:center;gap:10px;background:#fff;border:2px dashed #9db7e8;border-radius:12px;padding:12px;min-height:54px;margin-bottom:8px;font-weight:700;color:#0f1d3a}
+.slot .chip{flex:1 1 auto}.slot b{flex:0 0 30px;height:30px;border-radius:50%;background:#ff7a2f;color:#fff;display:flex;align-items:center;justify-content:center}
+.help{color:#44506a;font-size:14px;margin:0 0 10px}
+.stage{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:12px;align-items:stretch;user-select:none;-webkit-user-select:none}
+@media(max-width:560px){.stage{grid-template-columns:1fr 1fr}.mid{grid-column:1/3;grid-row:1}}
+.dz{border-radius:16px;padding:14px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:170px;transition:transform .15s,box-shadow .15s}
+.dz b{font-size:15px;line-height:1.3}.dz .n{font-size:28px;font-weight:900}.dz .ico{font-size:34px;line-height:1}
+.za{background:#fdf0e8;border:3px dashed #c2410c;color:#7c2d12}.zc{background:#e8f7ee;border:3px dashed #1f9d55;color:#14532d}
+.dz.hot{transform:scale(1.05);box-shadow:0 0 0 5px #ffc23d}
+.mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:170px}
+.card{width:100%;max-width:280px;background:#0f1d3a;color:#fff;border-radius:16px;padding:22px 16px;text-align:center;border-bottom:6px solid #ff7a2f;font-size:17px;font-weight:700;line-height:1.4;cursor:grab;touch-action:none;box-shadow:0 8px 18px rgba(15,29,58,.3);transition:transform .25s,opacity .25s;position:relative;z-index:5}
+.card small{display:block;color:#ffc23d;font-size:12px;letter-spacing:1px;margin-bottom:8px;font-weight:800}
+.card.drag{transition:none;cursor:grabbing;box-shadow:0 14px 28px rgba(15,29,58,.35)}
+.hint{font-size:13.5px;color:#44506a;text-align:center;font-weight:700}
+.mini{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:120px}.mini i{width:12px;height:12px;border-radius:3px;display:block}.mini i.g{background:#1f9d55}.mini i.r{background:#c2410c}</style><style>.stage4{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px;align-items:stretch;user-select:none;-webkit-user-select:none}
+.stage4 .col{display:flex;flex-direction:column;gap:12px}.stage4 .dz{min-height:130px;flex:1}
+.dzc{background:#fff;border:3px dashed;border-radius:16px}
+@media(max-width:560px){.stage4{grid-template-columns:1fr 1fr}.stage4 .mid{grid-column:1/3;grid-row:1}.stage4 .dz{min-height:110px}.stage4 .dz b{font-size:13.5px}}</style></head><body><div class="wrap">
+<div class="top"><span class="pill">JUEGO 2 · TEMA 4.2</span><span class="score">Aciertos: <b id="sc">0</b></span></div>
+<svg class="mount" viewBox="0 0 600 160" role="img" aria-label="Tu avance hacia la cima">
+<defs><radialGradient id="sol"><stop offset="0" stop-color="#ffc23d" stop-opacity=".8"/><stop offset=".4" stop-color="#ff7a2f" stop-opacity=".35"/><stop offset="1" stop-color="#ff7a2f" stop-opacity="0"/></radialGradient></defs>
+<circle cx="470" cy="20" r="110" fill="url(#sol)"/><circle cx="80" cy="30" r="1.5" fill="#fff" opacity=".7"/><circle cx="220" cy="18" r="1.3" fill="#fff" opacity=".6"/><circle cx="330" cy="40" r="1.2" fill="#fff" opacity=".6"/>
+<path d="M0 160 L40 150 L470 22 L600 120 V160Z" fill="#2b4a8a"/><path d="M40 150 L470 22 L300 160 H40Z" fill="#33569b" opacity=".35"/><path d="M470 22 L600 120 V160 L520 160Z" fill="#24407a"/><path d="M470 22 L455 40 L466 36 L472 44 L478 36 L488 40Z" fill="#fff6ea"/>
+<path d="M0 160 L0 150 L120 146 L260 156 L600 150 V160Z" fill="#14254a"/>
+<path id="ruta" d="M70 150 L260 142 L200 120 L330 110 L290 90 L400 80 L370 62 L450 50 L438 37 L468 25" fill="none" stroke="#fff6ea" stroke-width="2.2" stroke-dasharray="5 6" stroke-linecap="round" opacity=".85"/>
+<line x1="470" y1="22" x2="470" y2="0" stroke="#fff6ea" stroke-width="2.5"/><path class="fl" d="M471 1 h20 l-5 6 5 6 h-20z" fill="#ffc23d"/>
+<g id="hk"><g id="hkw">
+<g class="lb" transform="translate(0,-10)"><path d="M0 0 l3 10" stroke="#0f1d3a" stroke-width="4" stroke-linecap="round"/><path d="M1 10 h6" stroke="#3a2a1a" stroke-width="3.5" stroke-linecap="round"/></g>
+<g class="la" transform="translate(0,-10)"><path d="M0 0 l-3 10" stroke="#1a2c55" stroke-width="4" stroke-linecap="round"/><path d="M-5 10 h6" stroke="#3a2a1a" stroke-width="3.5" stroke-linecap="round"/></g>
+<g class="bd"><rect x="-10" y="-27" width="9" height="15" rx="3" fill="#d95a17"/><rect x="-5" y="-28" width="11" height="19" rx="5" fill="#ff7a2f"/>
+<line x1="7" y1="-22" x2="12" y2="0" stroke="#fff6ea" stroke-width="1.8"/><path d="M4 -22 l6 3" stroke="#ff7a2f" stroke-width="3.5" stroke-linecap="round"/>
+<circle cx="1" cy="-33" r="6" fill="#f2c9a0"/><path d="M-5 -35 q6 -9 12 0 z" fill="#ffc23d"/><rect x="-6" y="-36" width="14" height="2.5" rx="1" fill="#ffc23d"/><circle cx="3.5" cy="-33" r="1" fill="#0f1d3a"/></g>
+</g></g>
+<text id="ct" x="586" y="152" text-anchor="end" font-size="13" font-weight="700" fill="#ffc23d" font-family="Arial">0 / 8</text></svg>
+<script>const NPASOS=8;const RUTA=document.getElementById('ruta'),RL=RUTA.getTotalLength();let posH=0;
+function ponH(t){const q=RUTA.getPointAtLength(RL*t);document.getElementById('hk').setAttribute('transform','translate('+q.x+','+q.y+')')}
+function sube(k){const a=posH,b=k/NPASOS;posH=b;document.getElementById('ct').textContent=k+' / '+NPASOS;if(a===b){ponH(b);return}
+const w=document.getElementById('hkw');w.classList.add('walk');const t0=performance.now(),d=1100;
+(function st(now){const f=Math.min(1,(now-t0)/d);ponH(a+(b-a)*f);if(f<1)requestAnimationFrame(st);else w.classList.remove('walk')})(t0)}
+ponH(0);</script>
+<div id="play"><div class="hero"><small>ARRASTRA LA TARJETA</small><div class="big">¿Qué componente de la inteligencia emocional muestra esta persona?</div></div>
+<div class="stage4"><div class="col"><div class="dz dzc" data-z="C1" style="border-color:#2b4a8a"><div class="ico">🪞</div><b style="color:#2b4a8a">Conciencia de uno mismo</b><span class="n" id="nC1" style="color:#2b4a8a">0</span><div class="mini" id="mC1"></div></div><div class="dz dzc" data-z="C3" style="border-color:#d95a17"><div class="ico">💛</div><b style="color:#d95a17">Empatía</b><span class="n" id="nC3" style="color:#d95a17">0</span><div class="mini" id="mC3"></div></div></div>
+<div class="mid"><div class="card" id="cd"></div><div class="hint">✋ Arrastra la tarjeta a su destino</div></div>
+<div class="col"><div class="dz dzc" data-z="C2" style="border-color:#1f9d55"><div class="ico">🧘</div><b style="color:#1f9d55">Autorregulación</b><span class="n" id="nC2" style="color:#1f9d55">0</span><div class="mini" id="mC2"></div></div><div class="dz dzc" data-z="C4" style="border-color:#7c3aed"><div class="ico">🤝</div><b style="color:#7c3aed">Habilidad social</b><span class="n" id="nC4" style="color:#7c3aed">0</span><div class="mini" id="mC4"></div></div></div></div>
+<div class="fb" id="fb1" role="status"></div></div>
+<div id="end" class="hide"><div class="end"><div class="tag">¡ASCENSO TERMINADO!</div><div class="big" id="final"></div><p id="msg"></p><p style="font-size:15px">Los 4 componentes de la inteligencia emocional del líder trabajan <b>juntos</b>.</p><div style="margin-top:14px"><button class="btn" id="again">↻ Volver a intentar</button></div></div></div>
+</div><script>
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function $(s){return document.querySelector(s)}
+function msg(p){return p==1?'¡Llegaste a la cima! Dominas este tema. 🏔️':p>=.7?'¡Muy buen ascenso! Repasa las que fallaste y vuelve a intentarlo.':'Sigue entrenando: revisa de nuevo el contenido de la unidad y vuelve a intentarlo. 💪'}
+const IT=[["Sofía reconoce que se pone nerviosa al hablar en público y pide ayuda para prepararse.", "C1", "Conocer sus debilidades y saber <b>cuándo pedir ayuda</b> es conciencia de uno mismo."], ["Carlos acepta con calma una crítica y la usa para mejorar su trabajo.", "C1", "Aceptar la crítica constructiva es propio de quien <b>se conoce a sí mismo</b>."], ["Ante un error grave del equipo, la jefa no grita: primero busca las causas del problema.", "C2", "No dejarse llevar por las emociones instintivas es <b>autorregulación</b>."], ["Aunque está molesto en la reunión, Luis respira, se calma y responde con respeto.", "C2", "Controlar los impulsos es <b>autorregulación</b>."], ["Antes de cambiar los horarios, el líder piensa cómo afectará a las familias de su equipo.", "C3", "Tomar en cuenta los sentimientos de los colaboradores al decidir es <b>empatía</b>."], ["Ana nota que un compañero talentoso está desmotivado y conversa con él para entender qué le pasa.", "C3", "Ponerse en el lugar del otro y conservar el talento es <b>empatía en acción</b>."], ["Marta conecta con personas de todas las áreas y las entusiasma con el nuevo proyecto.", "C4", "Movilizar a las personas hacia un objetivo es <b>habilidad social</b>."], ["Jorge sabe que nada importante se logra en solitario y construye una red de contactos.", "C4", "Construir relaciones es <b>habilidad social</b>."]],ZN=["C1", "C3", "C2", "C4"];let score=0,tried={},cur=0,ord=[],cnt={},sx=0,sy=0,dr=false;const cd=$('#cd');
+function zoneAt(x,y){return [...document.querySelectorAll('.dz')].find(z=>{const r=z.getBoundingClientRect();return x>=r.left-10&&x<=r.right+10&&y>=r.top-10&&y<=r.bottom+10})}
+function showCard(){if(cur>=ord.length){finish();return}const k=ord[cur];cd.style.visibility='visible';cd.innerHTML='<small>TARJETA '+(cur+1)+' DE '+ord.length+'</small>'+IT[k][0];cd.style.transform='';cd.style.opacity=1}
+cd.addEventListener('pointerdown',e=>{if(cur>=ord.length)return;e.preventDefault();dr=true;sx=e.clientX;sy=e.clientY;cd.classList.add('drag');try{cd.setPointerCapture(e.pointerId)}catch(x){}});
+cd.addEventListener('pointermove',e=>{if(!dr)return;const dx=e.clientX-sx,dy=e.clientY-sy;cd.style.transform='translate('+dx+'px,'+dy+'px) rotate('+(dx/22)+'deg)';document.querySelectorAll('.dz').forEach(z=>z.classList.remove('hot'));const z=zoneAt(e.clientX,e.clientY);if(z)z.classList.add('hot')});
+cd.addEventListener('pointerup',e=>{if(!dr)return;dr=false;cd.classList.remove('drag');document.querySelectorAll('.dz').forEach(z=>z.classList.remove('hot'));const z=zoneAt(e.clientX,e.clientY);if(!z){cd.style.transform='';return}
+const k=ord[cur],zz=z.dataset.z,ok=IT[k][1]===zz,fb=$('#fb1');
+if(ok){cnt[zz]=(cnt[zz]||0)+1;$('#n'+zz).textContent=cnt[zz];$('#m'+zz).insertAdjacentHTML('beforeend','<i class="g"></i>');if(!tried[k]){score++;$('#sc').textContent=score;sube(score)}
+ fb.className='fb ok';fb.innerHTML='<b>✔ ¡Correcto!</b> '+IT[k][2];cd.style.opacity=0;cur++;setTimeout(showCard,350)}
+else{tried[k]=1;fb.className='fb bad';fb.innerHTML='<b>✖ Aún no.</b> Pista: conocerse → conciencia de uno mismo; controlarse → autorregulación; sentir con el otro → empatía; movilizar a la gente → habilidad social. Inténtalo de nuevo.';cd.style.transform='';if(cd.animate)cd.animate([{transform:'translateX(-9px)'},{transform:'translateX(9px)'},{transform:'translateX(0)'}],{duration:300,iterations:2})}});
+cd.addEventListener('pointercancel',()=>{dr=false;cd.classList.remove('drag');cd.style.transform=''});
+function start(){score=0;tried={};cur=0;cnt={};posH=0;$('#sc').textContent=0;sube(0);ZN.forEach(z=>{$('#n'+z).textContent=0;$('#m'+z).innerHTML=''});ord=shuffle(IT.map((x,k)=>k));$('#fb1').className='fb';$('#play').classList.remove('hide');$('#end').classList.add('hide');showCard()}
+function finish(){$('#play').classList.add('hide');$('#end').classList.remove('hide');$('#final').textContent=score+' / '+IT.length;$('#msg').innerHTML=msg(score/IT.length);window.scrollTo(0,0)}
+$('#again').onclick=start;start();
+</script></body></html>
