@@ -5,8 +5,10 @@
 .top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .pill{display:inline-block;background:#0f1d3a;color:#ffc23d;font-weight:800;font-size:12px;letter-spacing:1.2px;padding:6px 12px;border-radius:999px}
 .score{color:#0f1d3a;font-weight:800;font-size:14px}
-.mount{display:block;width:100%;height:auto;border-radius:14px;background:#0f1d3a;margin:0 0 14px}
-#cl{transition:transform .7s cubic-bezier(.3,1.4,.5,1)}
+.mount{display:block;width:100%;height:auto;max-height:200px;border-radius:14px;background:#0f1d3a;margin:0 0 14px}
+@keyframes pasoA{0%,100%{transform:translate(0,-10px) rotate(18deg)}50%{transform:translate(0,-10px) rotate(-18deg)}}@keyframes pasoB{0%,100%{transform:translate(0,-10px) rotate(-18deg)}50%{transform:translate(0,-10px) rotate(18deg)}}@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}@keyframes ondea{0%,100%{transform:skewY(0)}50%{transform:skewY(-9deg) scaleX(.88)}}
+.walk .la{animation:pasoA .5s infinite}.walk .lb{animation:pasoB .5s infinite}.walk .bd{animation:bob .25s infinite}.fl{transform-origin:471px 7px;animation:ondea 1.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.walk .la,.walk .lb,.walk .bd,.fl{animation:none}}
 .hero{background:#0f1d3a;color:#fff;border-radius:14px;padding:clamp(14px,3vw,22px);border-bottom:5px solid #ff7a2f;margin-bottom:14px}
 .hero small{display:block;color:#ffc23d;font-weight:800;letter-spacing:1px;font-size:12.5px;margin-bottom:6px}
 .hero .big{font-size:clamp(17px,2.5vw,23px);font-weight:700;line-height:1.4}
@@ -25,25 +27,37 @@
 .end .big{font-size:clamp(34px,6vw,54px);font-weight:900;color:#0f1d3a}.end p{color:#44506a;font-size:16px;line-height:1.6}
 .tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1px;padding:4px 10px;border-radius:999px;background:#fff3e8;color:#b5470d;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;min-height:50px;margin-bottom:12px}
-.chip{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:2px solid #ff7a2f;border-radius:12px;padding:10px 12px;font-size:15px;font-weight:700;color:#0f1d3a;line-height:1.3;touch-action:none}
-.chip.sel{background:#ff7a2f;color:#fff}.chip.ok{border-color:#1f9d55;background:#e8f7ee;color:#14532d;cursor:default}.chip.bad{border-color:#c2410c;background:#fdf0e8;color:#7c2d12}
-.zones{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:560px){.zones{grid-template-columns:1fr}}
+.chip{all:unset;box-sizing:border-box;cursor:grab;user-select:none;-webkit-user-select:none;box-shadow:0 2px 0 #d95a17;background:#fff;border:2px solid #ff7a2f;border-radius:12px;padding:10px 12px;font-size:15px;font-weight:700;color:#0f1d3a;line-height:1.3;touch-action:none}
+.chip.ghost{position:fixed;z-index:50;pointer-events:none;transform:rotate(-3deg) scale(1.05);box-shadow:0 10px 22px rgba(0,0,0,.28);cursor:grabbing;margin:0}.chip.hold{opacity:.25}.chip.ok{box-shadow:none}@keyframes sacude{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}.chip.bad{animation:sacude .35s 2;box-shadow:none}.chip.ok{border-color:#1f9d55;background:#e8f7ee;color:#14532d;cursor:default}.chip.bad{border-color:#c2410c;background:#fdf0e8;color:#7c2d12}
+.zones{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:560px){.zone .chip{font-size:13px;padding:8px 9px}.zone h3{font-size:14px}}
 .zone{border-radius:14px;padding:12px;min-height:130px;display:flex;flex-direction:column;gap:8px;cursor:pointer}
 .zone h3{margin:0 0 4px;font-size:16px}.z1{background:#e8f7ee;border:2px dashed #1f9d55}.z1 h3{color:#14532d}.z2{background:#fdf0e8;border:2px dashed #c2410c}.z2 h3{color:#7c2d12}
-.zone.over{outline:3px solid #ffc23d}
+.zone.over,.slot.over{box-shadow:0 0 0 4px #ffc23d;transform:scale(1.01)}.zone,.slot{transition:transform .15s,box-shadow .15s}
 .slot{display:flex;align-items:center;gap:10px;background:#fff;border:2px dashed #9db7e8;border-radius:12px;padding:12px;min-height:54px;margin-bottom:8px;font-weight:700;color:#0f1d3a}
-.slot b{flex:0 0 30px;height:30px;border-radius:50%;background:#ff7a2f;color:#fff;display:flex;align-items:center;justify-content:center}
+.slot .chip{flex:1 1 auto}.slot b{flex:0 0 30px;height:30px;border-radius:50%;background:#ff7a2f;color:#fff;display:flex;align-items:center;justify-content:center}
 .help{color:#44506a;font-size:14px;margin:0 0 10px}</style></head><body><div class="wrap">
 <div class="top"><span class="pill">JUEGO 1 · TEMA 1.1</span><span class="score">Aciertos: <b id="sc">0</b></span></div>
-<svg class="mount" viewBox="0 0 600 130" role="img" aria-label="Tu avance hacia la cima">
-<defs><radialGradient id="sol"><stop offset="0" stop-color="#ffc23d" stop-opacity=".8"/><stop offset=".4" stop-color="#ff7a2f" stop-opacity=".4"/><stop offset="1" stop-color="#ff7a2f" stop-opacity="0"/></radialGradient></defs>
-<circle cx="520" cy="18" r="90" fill="url(#sol)"/><circle cx="90" cy="24" r="1.5" fill="#fff" opacity=".7"/><circle cx="230" cy="14" r="1.3" fill="#fff" opacity=".6"/>
-<path d="M0 130 L120 96 L250 112 L420 44 L520 14 L600 52 V130Z" fill="#1a2c55"/><path d="M520 14 L600 52 V130 H560Z" fill="#24407a"/>
-<path d="M40 108 L88 99 L136 90 L184 80 L232 71 L280 62 L328 53 L376 44 L424 34 L472 25 L520 16" stroke="#fff6ea" stroke-width="2" stroke-dasharray="5 6" fill="none" opacity=".75"/>
-<line x1="520" y1="16" x2="520" y2="-2" stroke="#fff6ea" stroke-width="2.5"/><path d="M521 -1 h18 l-4 5 4 5 h-18z" fill="#ffc23d"/>
-<g id="cl"><circle cx="40" cy="96" r="7" fill="#ff7a2f"/><path d="M40 103 v10 M40 106 l-6 4 M40 106 l7 -3 M40 113 l-5 7 M40 113 l5 7" stroke="#ff7a2f" stroke-width="3" stroke-linecap="round"/></g>
-<text id="ct" x="586" y="122" text-anchor="end" font-size="13" font-weight="700" fill="#ffc23d" font-family="Arial">0 / 10</text></svg>
-<script>const RUTA=[[40, 108], [88, 99], [136, 90], [184, 80], [232, 71], [280, 62], [328, 53], [376, 44], [424, 34], [472, 25], [520, 16]];function sube(k){const d=RUTA[k];document.getElementById('cl').style.transform='translate('+(d[0]-40)+'px,'+(d[1]-108)+'px)';document.getElementById('ct').textContent=k+' / '+(RUTA.length-1)}</script>
+<svg class="mount" viewBox="0 0 600 160" role="img" aria-label="Tu avance hacia la cima">
+<defs><radialGradient id="sol"><stop offset="0" stop-color="#ffc23d" stop-opacity=".8"/><stop offset=".4" stop-color="#ff7a2f" stop-opacity=".35"/><stop offset="1" stop-color="#ff7a2f" stop-opacity="0"/></radialGradient></defs>
+<circle cx="470" cy="20" r="110" fill="url(#sol)"/><circle cx="80" cy="30" r="1.5" fill="#fff" opacity=".7"/><circle cx="220" cy="18" r="1.3" fill="#fff" opacity=".6"/><circle cx="330" cy="40" r="1.2" fill="#fff" opacity=".6"/>
+<path d="M0 160 L40 150 L470 22 L600 120 V160Z" fill="#2b4a8a"/><path d="M40 150 L470 22 L300 160 H40Z" fill="#33569b" opacity=".35"/><path d="M470 22 L600 120 V160 L520 160Z" fill="#24407a"/><path d="M470 22 L455 40 L466 36 L472 44 L478 36 L488 40Z" fill="#fff6ea"/>
+<path d="M0 160 L0 150 L120 146 L260 156 L600 150 V160Z" fill="#14254a"/>
+<path id="ruta" d="M70 150 L260 142 L200 120 L330 110 L290 90 L400 80 L370 62 L450 50 L438 37 L468 25" fill="none" stroke="#fff6ea" stroke-width="2.2" stroke-dasharray="5 6" stroke-linecap="round" opacity=".85"/>
+<line x1="470" y1="22" x2="470" y2="0" stroke="#fff6ea" stroke-width="2.5"/><path class="fl" d="M471 1 h20 l-5 6 5 6 h-20z" fill="#ffc23d"/>
+<g id="hk"><g id="hkw">
+<g class="lb" transform="translate(0,-10)"><path d="M0 0 l3 10" stroke="#0f1d3a" stroke-width="4" stroke-linecap="round"/><path d="M1 10 h6" stroke="#3a2a1a" stroke-width="3.5" stroke-linecap="round"/></g>
+<g class="la" transform="translate(0,-10)"><path d="M0 0 l-3 10" stroke="#1a2c55" stroke-width="4" stroke-linecap="round"/><path d="M-5 10 h6" stroke="#3a2a1a" stroke-width="3.5" stroke-linecap="round"/></g>
+<g class="bd"><rect x="-10" y="-27" width="9" height="15" rx="3" fill="#d95a17"/><rect x="-5" y="-28" width="11" height="19" rx="5" fill="#ff7a2f"/>
+<line x1="7" y1="-22" x2="12" y2="0" stroke="#fff6ea" stroke-width="1.8"/><path d="M4 -22 l6 3" stroke="#ff7a2f" stroke-width="3.5" stroke-linecap="round"/>
+<circle cx="1" cy="-33" r="6" fill="#f2c9a0"/><path d="M-5 -35 q6 -9 12 0 z" fill="#ffc23d"/><rect x="-6" y="-36" width="14" height="2.5" rx="1" fill="#ffc23d"/><circle cx="3.5" cy="-33" r="1" fill="#0f1d3a"/></g>
+</g></g>
+<text id="ct" x="586" y="152" text-anchor="end" font-size="13" font-weight="700" fill="#ffc23d" font-family="Arial">0 / 10</text></svg>
+<script>const NPASOS=10;const RUTA=document.getElementById('ruta'),RL=RUTA.getTotalLength();let posH=0;
+function ponH(t){const q=RUTA.getPointAtLength(RL*t);document.getElementById('hk').setAttribute('transform','translate('+q.x+','+q.y+')')}
+function sube(k){const a=posH,b=k/NPASOS;posH=b;document.getElementById('ct').textContent=k+' / '+NPASOS;if(a===b){ponH(b);return}
+const w=document.getElementById('hkw');w.classList.add('walk');const t0=performance.now(),d=1100;
+(function st(now){const f=Math.min(1,(now-t0)/d);ponH(a+(b-a)*f);if(f<1)requestAnimationFrame(st);else w.classList.remove('walk')})(t0)}
+ponH(0);</script>
 <div id="play"><div class="hero"><small id="kicker"></small><div class="big" id="text"></div></div>
 <p class="q" id="ask"></p><div class="grid" id="opts"></div><div class="fb" id="fb" role="status"></div>
 <div class="row"><button class="btn" id="next" disabled>Siguiente ›</button></div></div>
@@ -53,7 +67,7 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 function $(s){return document.querySelector(s)}
 function msg(p){return p==1?'¡Llegaste a la cima! Dominas este tema. 🏔️':p>=.7?'¡Muy buen ascenso! Repasa las que fallaste y vuelve a intentarlo.':'Sigue entrenando: revisa de nuevo el contenido de la unidad y vuelve a intentarlo. 💪'}
 const DATA=[{"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "El liderazgo implica solo a una persona: el líder.", "o": ["✔ Verdadero", "✖ Falso"], "a": 1, "why": "El liderazgo implica a más de una persona: <b>el líder y sus seguidores</b>, que le permiten desarrollar su función.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "El liderazgo es la influencia que se ejerce sobre las personas para motivarlas a trabajar con entusiasmo por un objetivo común.", "o": ["✔ Verdadero", "✖ Falso"], "a": 0, "why": "Esa es la definición de <b>liderazgo</b> que vimos en la unidad.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "La esencia de la conducción es el líder, no la relación entre las personas.", "o": ["✔ Verdadero", "✖ Falso"], "a": 1, "why": "La esencia de la conducción es <b>la relación entre las personas</b> implicadas: líderes y seguidores.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "En las relaciones de conducción, la influencia siempre va de arriba hacia abajo.", "o": ["✔ Verdadero", "✖ Falso"], "a": 1, "why": "Las influencias van <b>en todas las direcciones</b>: todos influyen entre sí.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "Que la dirección se construya en conjunto significa que todos tienen la misma jerarquía.", "o": ["✔ Verdadero", "✖ Falso"], "a": 1, "why": "No todos tienen la misma jerarquía, pero <b>todos ejercen influencia</b> sobre los demás.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "En una organización suele haber más de un líder y más de un seguidor.", "o": ["✔ Verdadero", "✖ Falso"], "a": 0, "why": "Así es: en las organizaciones suele haber <b>varios líderes y varios seguidores</b>.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "Para lograr cambios importantes, los procesos intelectuales y emocionales son más decisivos que los recursos.", "o": ["✔ Verdadero", "✖ Falso"], "a": 0, "why": "Los recursos son necesarios, pero los <b>procesos intelectuales y emocionales</b> son más decisivos.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "La confianza recíproca y el apoyo ante el fracaso favorecen el cambio.", "o": ["✔ Verdadero", "✖ Falso"], "a": 0, "why": "Ambas forman parte del <b>ambiente que favorece el cambio</b>.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "Si los cambios solo reflejan los deseos del líder, puede aparecer una «lucha de poderes».", "o": ["✔ Verdadero", "✖ Falso"], "a": 0, "why": "Cuando no se toman en cuenta los propósitos de los seguidores aparece la <b>lucha de poderes</b>.", "fix": true}, {"k": "LEE LA FRASE", "q": "¿Es verdadera o falsa?", "t": "Conocer las habilidades directivas es lo más importante del liderazgo.", "o": ["✔ Verdadero", "✖ Falso"], "a": 1, "why": "Las habilidades directivas son <b>apenas una pequeña parte</b>: lo importante es la relación de conducción.", "fix": true}];const N=DATA.length;let order=[],i=0,score=0,done=false;
-function start(){order=shuffle(DATA);i=0;score=0;$('#sc').textContent=0;sube(0);$('#play').classList.remove('hide');$('#end').classList.add('hide');show()}
+function start(){order=shuffle(DATA);i=0;score=0;posH=0;$('#sc').textContent=0;sube(0);$('#play').classList.remove('hide');$('#end').classList.add('hide');show()}
 function show(){done=false;const d=order[i];$('#kicker').textContent=d.k+' · '+(i+1)+' DE '+N;$('#text').innerHTML=d.t;$('#ask').textContent=d.q;$('#fb').className='fb';
 const box=$('#opts');box.innerHTML='';const idx=d.fix?d.o.map((_,k)=>k):shuffle(d.o.map((_,k)=>k));
 idx.forEach(k=>{const b=document.createElement('button');b.className='opt';b.innerHTML=d.o[k];b.dataset.k=k;b.onclick=()=>pick(k,b);box.appendChild(b)});
